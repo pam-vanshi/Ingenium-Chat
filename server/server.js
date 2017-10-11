@@ -20,14 +20,13 @@ io.on('connection', (socket) => {
   socket.broadcast.emit('newMessage', generateMessage('admin','New user joined!'))
 
 
-  socket.on('createMessage', (message) => {
-    console.log("naya message aya hai be",message);
-    io.emit('newMessage', {
-      from:message.from,
-      text: message.text,
-      createdAt: new Date().getTime()
-    })
-  })
+  socket.on('createMessage', (message, callback) => {
+    console.log('createMessage', message);
+    io.emit('newMessage', generateMessage(message.from, message.text));
+    callback();
+  });
+
+  
   socket.on('createLocationMessage', (coords) => {
     io.emit('newMessage', generateMessage('Admin', `${coords.latitude}, ${coords.longitude}`));
   });

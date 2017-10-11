@@ -16,13 +16,23 @@ socket.on('newMessage', function (message) {
 
   jQuery('#message').append(li)
 })
+
+
+
 jQuery('#message-form').on('submit', function (e) {
   e.preventDefault();
+
+  var messagebox = jQuery('[name=message]')
   socket.emit('createMessage', {
-    from: 'Moti Jhatel',
-    text: jQuery('[name=message]').val()
-  })
+    from: 'User',
+    text: messagebox.val()
+  }, function () {
+    messagebox.val('')
+
+  });
 })
+
+
 var locationButton = jQuery('#send-location');
 locationButton.on('click', function () {
   if (!navigator.geolocation) {
