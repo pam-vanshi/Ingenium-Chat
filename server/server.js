@@ -28,6 +28,9 @@ io.on('connection', (socket) => {
       createdAt: new Date().getTime()
     })
   })
+  socket.on('createLocationMessage', (coords) => {
+    io.emit('newMessage', generateMessage('Admin', `${coords.latitude}, ${coords.longitude}`));
+  });
 
     socket.on('disconnect', () => {
     console.log("disconnected to client");
