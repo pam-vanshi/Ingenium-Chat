@@ -1,4 +1,4 @@
-var socket = io()
+var socket = io() //io is available because we loaded the libraty in html file
 
 socket.on('connect', function () {
   console.log("connected to server");
@@ -10,9 +10,10 @@ socket.on('disconnect', function () {
 })
 
 socket.on('newMessage', function (message) {
+  var formattedTime = moment(message.createdAt).format('h:mm a')
   console.log("new message", message);
   var li = jQuery('<li></li>')
-  li.text(`${message.from}: ${message.text}`)
+  li.text(`${message.from} ${formattedTime}: ${message.text}`)
 
   jQuery('#message').append(li)
 })
