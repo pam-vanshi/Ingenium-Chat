@@ -10,12 +10,20 @@ socket.on('disconnect', function () {
 })
 
 socket.on('newMessage', function (message) {
-  var formattedTime = moment(message.createdAt).format('h:mm a')
-  console.log("new message", message);
-  var li = jQuery('<li></li>')
-  li.text(`${message.from} ${formattedTime}: ${message.text}`)
+   var formattedTime = moment(message.createdAt).format('h:mm a')
+  var template = jQuery('#messsage-template').html()
+  var html = Mustache.render(template, {
+    text: message.text,
+    from: message.from,
+    createdAt:formattedTime
+  })
+  jQuery('#message').append(html)
 
-  jQuery('#message').append(li)
+  // console.log("new message", message);
+  // var li = jQuery('<li></li>')
+  // li.text(`${message.from} ${formattedTime}: ${message.text}`)
+  //
+
 })
 
 
