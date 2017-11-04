@@ -112,7 +112,12 @@ function notifyMe(user,text) {
   // Let's check whether notification permissions have already been granted
   else if (Notification.permission === "granted") {
     // If it's okay let's create a notification
-    var notification = new Notification(`from : ${user}, text: ${text}`);
+    var options = {
+              body: `${user}: ${text}`,
+              icon: "https://wiki.smu.edu.sg/is480/img_auth.php/thumb/4/4e/Ingenium-logo.png/450px-Ingenium-logo.png",
+              dir : "ltr"
+          };
+    var notification = new Notification("Hi there",options);
   }
 
   // Otherwise, we need to ask the user for permission
@@ -120,7 +125,12 @@ function notifyMe(user,text) {
     Notification.requestPermission(function (permission) {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
-        var notification = new Notification(`from : ${user}, text: ${text}`);
+        var options = {
+                  body: `${user}: ${text}`,
+                  icon: "https://wiki.smu.edu.sg/is480/img_auth.php/thumb/4/4e/Ingenium-logo.png/450px-Ingenium-logo.png",
+                  dir : "ltr"
+              };
+        var notification = new Notification("Hi there",options);
       }
     });
   }
