@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('createNotification', (notification) => {
-    socket.broadcast.emit('newNotification', {from: "User", text: "Hello new notification is here"});
+    socket.broadcast.emit('newNotification', {from: "User", text: notification.text});
   });
 
     socket.on('disconnect', () => {

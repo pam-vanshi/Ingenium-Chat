@@ -61,18 +61,31 @@ jQuery('#message-form').on('submit', function (e) {
   });
 })
 
-jQuery('#notifications').on('click', function (e) {
+
+jQuery('#notification-form').on('submit', function (e) {
   e.preventDefault();
 
-  var messagebox = jQuery('[name=message]')
+  var notificationbox = jQuery('[name=notification]')
   socket.emit('createNotification', {
-    from: 'Pramudit',
-    text: 'Commented on your post'
+    from: 'User',
+    text: notificationbox.val()
   }, function () {
-    messagebox.val('')
+    notificationbox.val('')
 
   });
 })
+// jQuery('#notifications').on('click', function (e) {
+//   e.preventDefault();
+//
+//   var messagebox = jQuery('[name=message]')
+//   socket.emit('createNotification', {
+//     from: 'Pramudit',
+//     text: 'Commented on your post'
+//   }, function () {
+//     messagebox.val('')
+//
+//   });
+// })
 
 var locationButton = jQuery('#send-location');
 locationButton.on('click', function () {
