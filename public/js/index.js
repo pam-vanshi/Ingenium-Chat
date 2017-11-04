@@ -41,7 +41,11 @@ socket.on('newMessage', function (message) {
   //
   scrollToBottom();
 })
+socket.on('newNotification', function (notification) {
+  console.log("Notification has been sent");
+  notifyMe(notification.from,notification.text)
 
+})
 
 
 jQuery('#message-form').on('submit', function (e) {
@@ -57,6 +61,18 @@ jQuery('#message-form').on('submit', function (e) {
   });
 })
 
+jQuery('#notifications').on('click', function (e) {
+  e.preventDefault();
+
+  var messagebox = jQuery('[name=message]')
+  socket.emit('createNotification', {
+    from: 'Pramudit',
+    text: 'Commented on your post'
+  }, function () {
+    messagebox.val('')
+
+  });
+})
 
 var locationButton = jQuery('#send-location');
 locationButton.on('click', function () {
@@ -74,7 +90,7 @@ locationButton.on('click', function () {
   });
 });
 
-function notifyMe() {
+function notifyMe(user,text) {
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
     alert("This browser does not support desktop notification");
@@ -83,7 +99,7 @@ function notifyMe() {
   // Let's check whether notification permissions have already been granted
   else if (Notification.permission === "granted") {
     // If it's okay let's create a notification
-    var notification = new Notification("Aur lodu!");
+    var notification = new Notification(`from : ${user}, text: ${text}`);
   }
 
   // Otherwise, we need to ask the user for permission
@@ -91,7 +107,7 @@ function notifyMe() {
     Notification.requestPermission(function (permission) {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
-        var notification = new Notification("Aur lodu !");
+        var notification = new Notification(`from : ${user}, text: ${text}`);
       }
     });
   }
@@ -99,3 +115,4 @@ function notifyMe() {
   // At last, if the user has denied notifications, and you
   // want to be respectful there is no need to bother them any more.
 }
+//onclick="notifyMe()"

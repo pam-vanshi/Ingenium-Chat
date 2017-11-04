@@ -31,6 +31,10 @@ io.on('connection', (socket) => {
     io.emit('newMessage', generateMessage('Admin', `${coords.latitude}, ${coords.longitude}`));
   });
 
+  socket.on('createNotification', (notification) => {
+    socket.broadcast.emit('newNotification', {from: "User", text: "Hello new notification is here"});
+  });
+
     socket.on('disconnect', () => {
     console.log("disconnected to client");
   })
