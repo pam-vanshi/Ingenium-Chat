@@ -29,9 +29,10 @@ io.on('connection', (socket) => {
     users.removeUser(socket.id)//remove user from any potential previous rooms
     users.addUser(socket.id,params.name,params.room,)
     //io.to() is used when we emit an event to a particular room
+    var user = users.getUser(socket.id)
     io.to(params.room).emit('updateUserList', users.getUserList(params.room))
     socket.emit('newMessage', generateMessage('admin',`Welcome to ${params.room}`));//sent to the user
-    socket.broadcast.emit('newMessage', generateMessage('',`${params.name} joined`))//sent to everyone except user
+    socket.broadcast.to(params.room).emit('newMessage', generateMessage('',`${params.name} joined`))//sent to everyone except user
 
     callback()
 
@@ -40,7 +41,7 @@ io.on('connection', (socket) => {
   socket.on('createMessage', (message, callback) => {
     console.log('createMessage', message);
     var user = users.getUser(socket.id)
-    io.emit('newMessage', generateMessage(user.name, message.text));//send message to everyone
+    io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));//send message to everyone
     callback();
   });
 
@@ -59,7 +60,7 @@ io.on('connection', (socket) => {
 
     if(user){
       io.to(user.room).emit('updateUserList', users.getUserList(user.room))
-      io.emit('newMessage', generateMessage('Admin', `${user.name} has left the room`))
+      io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left the room`))
     }
   })
 })
