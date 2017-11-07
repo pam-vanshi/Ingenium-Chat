@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
     //io.to() is used when we emit an event to a particular room
     io.to(params.room).emit('updateUserList', users.getUserList(params.room))
     socket.emit('newMessage', generateMessage('admin',`Welcome to ${params.room}`));//sent to the user
-    socket.broadcast.emit('newMessage', generateMessage('admin',`${params.name} joined`))//sent to everyone except user
+    socket.broadcast.emit('newMessage', generateMessage('',`${params.name} joined`))//sent to everyone except user
 
     callback()
 
